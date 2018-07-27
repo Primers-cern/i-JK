@@ -16,7 +16,7 @@ export default new router({
       component: Login
     },
     {
-      path: '/Regist',
+      path: '/regist',
       name: 'Regist',
       component: Regist
     },

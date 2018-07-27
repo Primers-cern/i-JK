@@ -14,10 +14,6 @@ export default {
   name: "ShopList",
   props: {
     shopList: Array
-  },
-  data () {
-    return {
-    }
   }
 }
 </script>

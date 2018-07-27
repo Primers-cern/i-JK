@@ -1,20 +1,25 @@
 <template>
   <div>
-    <div>
-      <label for="account">手机号</label>
-      <input type="text" id="account" v-model="phone">
-    </div>
-    <div>
-      <label for="password">密码</label>
-      <input type="password" id="password" v-model="password">
+    <h3 class="title">登陆</h3>
+    <div class="inputBox">
+      <div class="inputItem">
+        <label for="account">手机号</label>
+        <input type="text" id="account" v-model="phone">
+      </div>
+      <div class="inputItem">
+        <label for="password">密 码</label>
+        <input type="password" id="password" v-model="password">
+      </div>
     </div>
 
-    <span>
-      <router-link to="/regist">注册新店铺</router-link>
-    </span>
-    <span>
-      <router-link to="/regist">忘记密码</router-link>
-    </span>
+    <div class="links">
+      <span class="regist">
+        <router-link to="/regist">注册新店铺</router-link>
+      </span>
+      <span class="forget">
+        <router-link to="/regist">忘记密码</router-link>
+      </span>
+    </div>
 
     <button class="loginBtn" @click="handleLogin">登录</button>
 
@@ -35,11 +40,11 @@ export default {
     }
   },
   methods: {
-    handleLogin () {
+    handleLogin () {//执行登陆
       if (this.checkForm()) {// 本地验证
         axios.post('/merLogin', this.packData())
           .then((res) => {
-            let data = res.data
+            const data = res.data
             if (data && data.result_code == 'success') {
               let accInfo = {}
               accInfo.account = data.phone
@@ -52,8 +57,8 @@ export default {
       } 
     },
     checkForm () {
-      let phone = this.phone
-      let password = this.password
+      const phone = this.phone
+      const password = this.password
 
       if (phone && password) {
         let reg = /^1\d{10}$/ //手机验证
@@ -93,15 +98,27 @@ export default {
 <style lang="stylus" scoped>
   @import '../../../../styles/mixins'
   
+  .title
+    text-align: center
+  .inputBox
+    margin-top: 40px
+    .inputItem
+      inputItem()
+      label
+        itemLabel()
+      input
+        itemInput()
+  .links
+    overflow: hidden
+    padding: 0 34px
+    font-size: 12px
+    .regist
+      float: left
+    .forget
+      float: right
   .loginBtn
     blueBigBtn()
+    margin-top: 60px
   .errmsg
-    position: fixed
-    top: 0
-    left: 0
-    right: 0
-    text-align: center
-    color: #fff
-    padding: 4px 0
-    background-color: rgba(0,0,0,.7)
+    errmsg()
 </style>

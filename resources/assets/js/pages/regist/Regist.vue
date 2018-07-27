@@ -1,37 +1,36 @@
 <template>
   <div>
-    <form>
-      <div>
-        <label for="merchant_name">商户名称</label>
-        <input type="text" id="merchant_name" placeholder="请输入店铺名称" v-model="userData.merchant_name">
-      </div>
-      <div>
-        <label for="phone">注册手机</label>
-        <input type="number" id="phone" placeholder="该手机将成为后台登陆账号" v-model="userData.phone" ref="phone">
-      </div>
-      <div>
-        <label for="code">验证码</label>
-        <input type="number" id="code" v-model="code" ref="code">
-        <button class="btn" @click="handleGetVerification" ref="codeBtn">{{getVeri}}</button>
-      </div>
-      <div>
-        <label for="password">设置密码</label>
-        <input type="password" id="password" placeholder="6位以上数字或字母" v-model="userData.password">
-      </div>
-      <div>
-        <label for="confirmPassword">确认密码</label>
-        <input type="password" id="confirmPassword" placeholder="请重复输入以确认" v-model="confirmPassword">
-      </div>
+    <h3 class="title">注册</h3>
+    <div class="inputItem">
+      <label for="merchant_name">商户名称</label>
+      <input type="text" id="merchant_name" placeholder="请输入店铺名称" v-model="userData.merchant_name">
+    </div>
+    <div class="inputItem">
+      <label for="phone">注册手机</label>
+      <input type="text" id="phone" placeholder="该手机将成为后台登陆账号" v-model="userData.phone" ref="phone">
+    </div>
+    <div class="inputItem">
+      <label for="code">验证码</label>
+      <input type="number" id="code" v-model="code" ref="code">
+      <button class="btn" @click="handleGetVerification" ref="codeBtn">{{getVeri}}</button>
+    </div>
+    <div class="inputItem">
+      <label for="password">设置密码</label>
+      <input type="password" id="password" placeholder="6位以上数字或字母" v-model="userData.password">
+    </div>
+    <div class="inputItem">
+      <label for="confirmPassword">确认密码</label>
+      <input type="password" id="confirmPassword" placeholder="请重复输入以确认" v-model="confirmPassword">
+    </div>
 
-      <div>
-        <input type="checkbox" v-model="ifAgree">
-        同意《
-        <span class="showAgr" @click="handleShowAgr">即可传媒商户注册协议</span>
-        》
-      </div>
+    <div class="agreeBox">
+      <input type="checkbox" v-model="ifAgree">
+      同意《
+      <span class="showAgr" @click="handleShowAgr">即可传媒商户注册协议</span>
+      》
+    </div>
 
-      <button class="btn nextBtn btnDisable" ref="nextBtn" @click="handleSubmit" disabled="true">下一步</button>
-    </form>
+    <button class="btn nextBtn btnDisable" ref="nextBtn" @click="handleSubmit" disabled="true">下一步</button>
 
     <!-- 错误提示 -->
     <div class="errmsg" v-if="errmsg">{{errmsg}}</div>
@@ -70,10 +69,9 @@ export default {
   },
   methods: {
     handleGetVerification (e) { //获取验证码
-      
       let reg = /^1\d{10}$/ //手机验证
       if (this.userData.phone && reg.test(this.userData.phone)) {
-        var $phone = {}
+        let $phone = {}
         $phone.phone = this.userData.phone
         axios.post('/sendCode', $phone) //发送数据
           .then((res) => {
@@ -111,14 +109,17 @@ export default {
       if (this.checkForm()) {
         axios.post('/MerchantUser/addMerchant', this.packData())
           .then((res) => {
-            if (res.data.errmsg == 'success') {
+            const data = res.data
+            if (res.errmsg == 'success') {
               this.$router.push("/updateinfo")
+            } else {
+              this.errmsg = res.errmsg
             }
           })
       }
     },
     packData () {
-      var formData = {}
+      let formData = {}
       formData.secret = '73715fefabc2195fa0e14239'
       formData.tbname = 'merchant_base'
 
@@ -130,14 +131,14 @@ export default {
       return formData
     },
     checkForm () { // 验证表单
-      var empty = () => { //判断是否为空
+      let empty = () => { //判断是否为空
         for (let i in this.userData) {
           if (!this.userData[i]) {
             return true;
             break;
       }}}
       //验证密码格式
-      var reg = /^[a-zA-Z0-9]{6,15}$/
+      let reg = /^[a-zA-Z0-9]{6,15}$/
       if (reg.test(this.userData.password)) {
         //资料不为空，确认密码，正确验证码
         if (!empty() && this.confirmPassword && this.OKCode) { 
@@ -175,7 +176,7 @@ export default {
     code () { //检测验证码正确
       if (this.getCode) {
         clearTimeout(timeout)
-        var timeout = setTimeout(() => {
+        let timeout = setTimeout(() => {
           if (this.code == this.getCode) {
             this.$refs.code.style.borderColor = 'green'
             this.$refs.phone.disabled = true //阻止修改手机
@@ -203,8 +204,19 @@ export default {
   @import '../../../styles/mixins'
 
   .title
-    font-size: 20px
-    color: pink
+    text-align: center
+    margin-bottom: 40px
+  .inputItem
+    inputItem()
+    label
+      itemLabel()
+      width: 66px
+    input
+      itemInput()
+
+  .agreeBox
+    text-align: center
+    margin-top: 40px
   .btn
     baseBtn()
   .nextBtn,.agrBtn
@@ -215,12 +227,5 @@ export default {
     color: #0084f5
     text-decoration: underline
   .errmsg
-    position: fixed
-    top: 0
-    left: 0
-    right: 0
-    text-align: center
-    color: #fff
-    padding: 4px 0
-    background-color: rgba(0,0,0,.7)
+    errmsg()
 </style>
