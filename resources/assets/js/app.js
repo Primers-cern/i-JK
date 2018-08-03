@@ -18,7 +18,7 @@ window.Vue = require('vue');
 
 import App from './App.vue'
 import router from './router/index.js'
-// import '../styles/reset.css'
+import '../styles/reset.css'
 // import '../styles/border.css'
 
 new Vue({

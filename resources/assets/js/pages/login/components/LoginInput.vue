@@ -14,10 +14,10 @@
 
     <div class="links">
       <span class="regist">
-        <router-link to="/regist">注册新店铺</router-link>
+        <router-link to="regist">注册新店铺</router-link>
       </span>
       <span class="forget">
-        <router-link to="/regist">忘记密码</router-link>
+        <router-link to="certifi">忘记密码</router-link>
       </span>
     </div>
 

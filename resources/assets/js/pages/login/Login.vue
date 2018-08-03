@@ -8,6 +8,7 @@
       <p class="title">—————— 已绑定店铺 ——————</p>
       <shop-list :shopList="shopList"></shop-list>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 

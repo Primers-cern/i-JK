@@ -5,7 +5,7 @@
     <!-- 添加csrf-token防止报错 -->
     <meta name="csrf-token">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>即刻传媒--商家登录</title>
+    <title>即刻传媒--商家后台</title>
 </head>
 <body>
     <div id="app"></div>
